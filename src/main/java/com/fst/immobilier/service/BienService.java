@@ -103,4 +103,9 @@ public class BienService {
             }
         }
     }
+
+    @Transactional
+    public void deleteById(Long id) {
+        bienRepository.deleteById(id);
+    }
 }

@@ -25,10 +25,18 @@
                     
                     <h5 class="mt-4">Caractéristiques</h5>
                     <ul class="list-group list-group-flush">
-                        <li class="list-group-item"><strong>Type:</strong> <span th:text="${bien.type}"></span></li>
-                        <li class="list-group-item"><strong>Surface:</strong> <span th:text="${bien.surface + ' m²'}"></span></li>
-                        <li class="list-group-item"><strong>Pièces:</strong> <span th:text="${bien.nbPieces}"></span></li>
-                        <li class="list-group-item"><strong>Transaction:</strong> <span th:text="${bien.typeTransaction}"></span></li>
+                        <li class="list-group-item">
+                            <i class="bi bi-tag-fill text-primary me-2"></i><strong>Type:</strong> <span th:text="${bien.type}"></span>
+                        </li>
+                        <li class="list-group-item">
+                            <i class="bi bi-arrows-fullscreen text-primary me-2"></i><strong>Surface:</strong> <span th:text="${bien.surface + ' m²'}"></span>
+                        </li>
+                        <li th:if="${bien.type != T(com.fst.immobilier.entity.enums.TypeBien).TERRAIN}" class="list-group-item">
+                            <i class="bi bi-door-open-fill text-primary me-2"></i><strong>Pièces:</strong> <span th:text="${bien.nbPieces}"></span>
+                        </li>
+                        <li class="list-group-item">
+                            <i class="bi bi-cash-stack text-primary me-2"></i><strong>Transaction:</strong> <span th:text="${bien.typeTransaction}"></span>
+                        </li>
                     </ul>
                 </div>
             </div>

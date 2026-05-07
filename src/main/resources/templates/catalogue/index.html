@@ -1,11 +1,23 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head th:replace="fragments/base :: head('Catalogue - Agence')"></head>
 <body>
 <div th:replace="fragments/base :: navbar"></div>
 
 <div class="container mt-4">
     <h1 class="mb-4">Catalogue des Biens</h1>
+
+    <!-- Alerts -->
+    <div th:if="${message}" class="alert alert-success alert-dismissible fade show" role="alert">
+        <i class="bi bi-check-circle-fill me-2"></i>
+        <span th:text="${message}"></span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    <div th:if="${error}" class="alert alert-danger alert-dismissible fade show" role="alert">
+        <i class="bi bi-exclamation-triangle-fill me-2"></i>
+        <span th:text="${error}"></span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
     
     <!-- Search Form -->
     <div class="card mb-4 shadow-sm">
@@ -64,11 +76,25 @@
                     <h6 class="text-primary fw-bold" th:text="${bien.prix + ' DT'}">Prix</h6>
                     <ul class="list-unstyled">
                         <li><i class="bi bi-arrows-fullscreen"></i> <span th:text="${bien.surface + ' m²'}"></span></li>
-                        <li><i class="bi bi-door-open"></i> <span th:text="${bien.nbPieces + ' pièces'}"></span></li>
+                        <li th:if="${bien.type != T(com.fst.immobilier.entity.enums.TypeBien).TERRAIN}">
+                            <i class="bi bi-door-open"></i> <span th:text="${bien.nbPieces + ' pièces'}"></span>
+                        </li>
                     </ul>
                 </div>
-                <div class="card-footer bg-white border-top-0">
-                    <a th:href="@{'/catalogue/' + ${bien.id}}" class="btn btn-outline-secondary w-100">Voir détails</a>
+                <div class="card-footer bg-white border-top-0 d-flex gap-2">
+                    <a th:href="@{'/catalogue/' + ${bien.id}}" class="btn btn-outline-secondary flex-grow-1">Détails</a>
+                    
+                    <!-- Boutons réservés aux Agents -->
+                    <div sec:authorize="hasAnyRole('AGENT', 'ADMIN')" class="d-flex gap-2">
+                        <a th:href="@{'/agent/biens/modifier/' + ${bien.id}}" class="btn btn-warning" title="Modifier">
+                            <i class="bi bi-pencil"></i>
+                        </a>
+                        <form th:action="@{'/agent/biens/supprimer/' + ${bien.id}}" method="post" onsubmit="return confirm('Supprimer ce bien ?');">
+                            <button type="submit" class="btn btn-danger" title="Supprimer">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>

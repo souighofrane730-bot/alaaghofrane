@@ -67,8 +67,8 @@ INSERT INTO photos_bien (bien_id, url, ordre, principale) VALUES
 (4, 'https://images.unsplash.com/photo-1497366754035-f200968a6e72?w=800', 2, 0),
 (4, 'https://images.unsplash.com/photo-1556761175-5973dc0f32b7?w=800', 3, 0),
 -- TERRAIN CONSTRUCTIBLE (ID 5)
-(5, 'https://images.unsplash.com/photo-1599933334293-b097cc0f6990?w=800', 1, 1),
-(5, 'https://images.unsplash.com/photo-1591955506264-3f5a6834570a?w=800', 2, 0),
+(5, 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=800', 1, 1),
+(5, 'https://images.unsplash.com/photo-1470770841072-f978cf4d019e?w=800', 2, 0),
 (5, 'https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=800', 3, 0),
 -- APPARTEMENT (ID 6)
 (6, 'https://images.unsplash.com/photo-1493809842364-78817add7ffb?w=800', 1, 1),
@@ -99,9 +99,9 @@ INSERT INTO photos_bien (bien_id, url, ordre, principale) VALUES
 (12, 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=800', 2, 0),
 (12, 'https://images.unsplash.com/photo-1502005229762-f1ba5adad80f?w=800', 3, 0),
 -- TERRAIN AGRICOLE (ID 13)
-(13, 'https://images.unsplash.com/photo-1467043237213-65f2da53396f?w=800', 1, 1),
-(13, 'https://images.unsplash.com/photo-1541336528065-8f1fdc435835?w=800', 2, 0),
-(13, 'https://images.unsplash.com/photo-1505230833350-090c883709b3?w=800', 3, 0),
+(13, 'https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=800', 1, 1),
+(13, 'https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=800', 2, 0),
+(13, 'https://images.unsplash.com/photo-1519681393784-d120267933ba?w=800', 3, 0),
 -- BUREAU PARTAGE (ID 14)
 (14, 'https://images.unsplash.com/photo-1497215842964-222b430dc094?w=800', 1, 1),
 (14, 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=800', 2, 0),
@@ -123,20 +123,20 @@ INSERT INTO photos_bien (bien_id, url, ordre, principale) VALUES
 (18, 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800', 2, 0),
 (18, 'https://images.unsplash.com/photo-1524758631624-e2822e304c36?w=800', 3, 0),
 -- TERRAIN INDUSTRIEL (ID 19)
-(19, 'https://images.unsplash.com/photo-1590247813693-5541d1c609fd?w=800', 1, 1),
-(19, 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=800', 2, 0),
+(19, 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=800', 1, 1),
+(19, 'https://images.unsplash.com/photo-1590247813693-5541d1c609fd?w=800', 2, 0),
 (19, 'https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?w=800', 3, 0),
 -- TERRAIN LOTI (ID 20)
 (20, 'https://images.unsplash.com/photo-1531834685032-c34bf0d84c77?w=800', 1, 1),
 (20, 'https://images.unsplash.com/photo-1625244724120-1fd1d34d00f6?w=800', 2, 0),
-(20, 'https://images.unsplash.com/photo-1596720426673-e483d744d00a?w=800', 3, 0),
+(20, 'https://images.unsplash.com/photo-1470770841072-f978cf4d019e?w=800', 3, 0),
 -- DAR TRADITIONNELLE (ID 21)
 (21, 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=800', 1, 1),
 (21, 'https://images.unsplash.com/photo-1590725121406-38d58521096a?w=800', 2, 0),
 (21, 'https://images.unsplash.com/photo-1564501049062-15d4a09cfac3?w=800', 3, 0),
 -- TERRAIN OLIVIERS (ID 22)
-(22, 'https://images.unsplash.com/photo-1467043237213-65f2da53396f?w=800', 1, 1),
-(22, 'https://images.unsplash.com/photo-1464226184884-fa280b87c399?w=800', 2, 0),
+(22, 'https://images.unsplash.com/photo-1464226184884-fa280b87c399?w=800', 1, 1),
+(22, 'https://images.unsplash.com/photo-1467043237213-65f2da53396f?w=800', 2, 0),
 (22, 'https://images.unsplash.com/photo-1500917293891-ef795e70e1f6?w=800', 3, 0);
 
 -- Visites

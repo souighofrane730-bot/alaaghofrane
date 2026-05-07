@@ -47,4 +47,43 @@ public class AgentController {
         }
         return "redirect:/agent/dashboard";
     }
+
+    @GetMapping("/biens/modifier/{id}")
+    public String editForm(@PathVariable Long id, Model model) {
+        Bien bien = bienService.findById(id).orElseThrow(() -> new RuntimeException("Bien non trouvé"));
+        model.addAttribute("bien", bien);
+        return "agent/modifier";
+    }
+
+    @PostMapping("/biens/modifier/{id}")
+    public String updateBien(@PathVariable Long id, @ModelAttribute Bien bien, RedirectAttributes redirectAttributes) {
+        try {
+            Bien existing = bienService.findById(id).orElseThrow(() -> new RuntimeException("Bien non trouvé"));
+            // Update fields
+            existing.setTitre(bien.getTitre());
+            existing.setDescription(bien.getDescription());
+            existing.setPrix(bien.getPrix());
+            existing.setSurface(bien.getSurface());
+            existing.setNbPieces(bien.getNbPieces());
+            existing.setVille(bien.getVille());
+            existing.setType(bien.getType());
+            
+            bienService.saveBien(existing);
+            redirectAttributes.addFlashAttribute("message", "Bien modifié avec succès !");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("error", "Erreur lors de la modification : " + e.getMessage());
+        }
+        return "redirect:/catalogue";
+    }
+
+    @PostMapping("/biens/supprimer/{id}")
+    public String deleteBien(@PathVariable Long id, RedirectAttributes redirectAttributes) {
+        try {
+            bienService.deleteById(id);
+            redirectAttributes.addFlashAttribute("message", "Bien supprimé avec succès !");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("error", "Erreur lors de la suppression : " + e.getMessage());
+        }
+        return "redirect:/catalogue";
+    }
 }
