@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/base :: head('Connexion - ImmoLuxe')"></head>
+<body style="background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%); min-height: 100vh; display: flex; align-items: center; justify-content: center; padding-top: 0;">
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-5">
+            <div class="card shadow-lg border-0" style="border-radius: 16px; overflow: hidden;">
+                <div class="card-header bg-white border-0 text-center pt-5 pb-3">
+                    <h2 class="fw-bold text-primary mb-0"><i class="bi bi-houses-fill me-2"></i>ImmoLuxe</h2>
+                    <p class="text-muted mt-2">Connectez-vous à votre espace</p>
+                </div>
+                <div class="card-body p-5 pt-0">
+                    <div th:if="${param.error}" class="alert alert-danger" style="border-radius: 8px;">
+                        Email ou mot de passe incorrect.
+                    </div>
+                    <div th:if="${param.logout}" class="alert alert-success" style="border-radius: 8px;">
+                        Vous avez été déconnecté.
+                    </div>
+
+                    <form th:action="@{/login}" method="post">
+                        <div class="mb-4">
+                            <label for="username" class="form-label fw-bold">Adresse Email</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light border-end-0" id="email-addon"><i class="bi bi-envelope"></i></span>
+                                <input type="email" class="form-control border-start-0 ps-0" id="username" name="username" placeholder="exemple@agence.tn" required autofocus>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label for="password" class="form-label fw-bold">Mot de passe</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light border-end-0" id="password-addon"><i class="bi bi-lock"></i></span>
+                                <input type="password" class="form-control border-start-0 ps-0" id="password" name="password" placeholder="Votre mot de passe" required>
+                            </div>
+                        </div>
+
+                        <div class="d-grid gap-2 mt-4">
+                            <button type="submit" class="btn btn-primary btn-lg fw-bold" style="border-radius: 8px;">Se connecter</button>
+                        </div>
+                        
+                        <div class="text-center mt-4">
+                            <a href="/" class="text-decoration-none text-muted"><i class="bi bi-arrow-left me-1"></i> Retour au catalogue</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            
+            <div class="text-center mt-4 text-muted small">
+                <p><strong>Comptes de test :</strong><br>
+                Admin : ahmed.benali@agence.tn / admin<br>
+                Agent : mouna.trabelsi@agence.tn / agent</p>
+            </div>
+            
+        </div>
+    </div>
+</div>
+
+<div th:replace="fragments/base :: scripts"></div>
+</body>
+</html>

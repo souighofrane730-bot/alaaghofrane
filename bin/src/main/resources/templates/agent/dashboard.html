@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/base :: head('Dashboard Agent')"></head>
+<body>
+<div th:replace="fragments/base :: navbar"></div>
+
+<div class="container mt-4">
+    <h2>Dashboard Agent</h2>
+    
+    <div th:if="${message}" class="alert alert-success" th:text="${message}"></div>
+    <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+
+    <div class="card mt-4">
+        <div class="card-header bg-primary text-white">Gestion des Biens</div>
+        <div class="card-body">
+            <table class="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>Référence</th>
+                        <th>Titre</th>
+                        <th>Statut</th>
+                        <th>Actions (Changer Statut)</th>
+                        <th>Photos (Upload)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="bien : ${biens}">
+                        <td th:text="${bien.reference}"></td>
+                        <td th:text="${bien.titre}"></td>
+                        <td><span class="badge bg-secondary" th:text="${bien.statut}"></span></td>
+                        <td>
+                            <form th:action="@{'/agent/bien/' + ${bien.id} + '/statut'}" method="post" class="d-flex">
+                                <select name="statut" class="form-select form-select-sm me-2">
+                                    <option th:each="s : ${T(com.fst.immobilier.entity.enums.StatutBien).values()}"
+                                            th:value="${s}" th:text="${s}" th:selected="${s == bien.statut}"></option>
+                                </select>
+                                <button type="submit" class="btn btn-sm btn-outline-primary">OK</button>
+                            </form>
+                        </td>
+                        <td>
+                            <form th:action="@{'/agent/bien/' + ${bien.id} + '/upload'}" method="post" enctype="multipart/form-data" class="d-flex">
+                                <input type="file" name="files" multiple class="form-control form-control-sm me-2" accept="image/png, image/jpeg, image/webp">
+                                <button type="submit" class="btn btn-sm btn-success">Upload</button>
+                            </form>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div th:replace="fragments/base :: scripts"></div>
+</body>
+</html>

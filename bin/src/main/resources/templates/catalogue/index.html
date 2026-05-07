@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/base :: head('Catalogue - Agence')"></head>
+<body>
+<div th:replace="fragments/base :: navbar"></div>
+
+<div class="container mt-4">
+    <h1 class="mb-4">Catalogue des Biens</h1>
+    
+    <!-- Search Form -->
+    <div class="card mb-4 shadow-sm">
+        <div class="card-body">
+            <form th:action="@{/catalogue}" method="get" th:object="${searchDTO}" class="row g-3">
+                <div class="col-md-3">
+                    <label class="form-label">Type</label>
+                    <select class="form-select" th:field="*{type}" onchange="this.form.submit()">
+                        <option value="">Tous</option>
+                        <option th:each="t : ${T(com.fst.immobilier.entity.enums.TypeBien).values()}"
+                                th:value="${t}" th:text="${t}"></option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Ville</label>
+                    <input type="text" class="form-control" th:field="*{ville}" onblur="this.form.submit()">
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Prix Min</label>
+                    <input type="number" class="form-control" th:field="*{prixMin}" onblur="this.form.submit()">
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Prix Max</label>
+                    <input type="number" class="form-control" th:field="*{prixMax}" onblur="this.form.submit()">
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Surface Min</label>
+                    <input type="number" class="form-control" th:field="*{surfaceMin}" onblur="this.form.submit()">
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Nb Pièces</label>
+                    <input type="number" class="form-control" th:field="*{nbPieces}" onblur="this.form.submit()">
+                </div>
+                <div class="col-md-3 d-flex align-items-end">
+                    <button type="submit" class="btn btn-primary w-100">Rechercher</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Results -->
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+        <div class="col" th:each="bien : ${biens.content}">
+            <div class="card h-100 bien-card shadow-sm">
+                <div class="ratio ratio-16x9 bg-light d-flex align-items-center justify-content-center overflow-hidden">
+                    <img th:if="${!bien.photos.isEmpty() and bien.photos[0].url.startsWith('http')}" th:src="${bien.photos[0].url}" class="card-img-top object-fit-cover w-100 h-100" alt="Photo de bien">
+                    <img th:if="${!bien.photos.isEmpty() and !bien.photos[0].url.startsWith('http')}" th:src="@{'/uploads/' + ${bien.photos[0].url}}" class="card-img-top object-fit-cover w-100 h-100" alt="Photo de bien">
+                    <div th:unless="${!bien.photos.isEmpty()}" class="text-muted d-flex flex-column align-items-center">
+                        <i class="bi bi-image fs-1"></i>
+                        <span>Pas de photo</span>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title" th:text="${bien.titre}">Titre</h5>
+                    <p class="card-text text-muted" th:text="${bien.ville + ' - ' + bien.type}"></p>
+                    <h6 class="text-primary fw-bold" th:text="${bien.prix + ' DT'}">Prix</h6>
+                    <ul class="list-unstyled">
+                        <li><i class="bi bi-arrows-fullscreen"></i> <span th:text="${bien.surface + ' m²'}"></span></li>
+                        <li><i class="bi bi-door-open"></i> <span th:text="${bien.nbPieces + ' pièces'}"></span></li>
+                    </ul>
+                </div>
+                <div class="card-footer bg-white border-top-0">
+                    <a th:href="@{'/catalogue/' + ${bien.id}}" class="btn btn-outline-secondary w-100">Voir détails</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div th:if="${biens.isEmpty()}" class="alert alert-info mt-4">
+        Aucun bien ne correspond à vos critères de recherche.
+    </div>
+
+</div>
+
+<div th:replace="fragments/base :: scripts"></div>
+</body>
+</html>

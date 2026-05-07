@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/base :: head(${bien.titre})"></head>
+<body>
+<div th:replace="fragments/base :: navbar"></div>
+
+<div class="container mt-4">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/catalogue">Catalogue</a></li>
+            <li class="breadcrumb-item active" aria-current="page" th:text="${bien.reference}">Ref</li>
+        </ol>
+    </nav>
+
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card shadow-sm mb-4">
+                <div class="card-body">
+                    <h2 class="card-title" th:text="${bien.titre}">Titre</h2>
+                    <p class="text-muted" th:text="${bien.ville + ', ' + bien.quartier + ' (' + bien.codePostal + ')'}"></p>
+                    <h4 class="text-primary fw-bold mb-4" th:text="${bien.prix + ' DT'}">Prix</h4>
+                    
+                    <h5>Description</h5>
+                    <p class="card-text" th:text="${bien.description}">Description...</p>
+                    
+                    <h5 class="mt-4">Caractéristiques</h5>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item"><strong>Type:</strong> <span th:text="${bien.type}"></span></li>
+                        <li class="list-group-item"><strong>Surface:</strong> <span th:text="${bien.surface + ' m²'}"></span></li>
+                        <li class="list-group-item"><strong>Pièces:</strong> <span th:text="${bien.nbPieces}"></span></li>
+                        <li class="list-group-item"><strong>Transaction:</strong> <span th:text="${bien.typeTransaction}"></span></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Galerie Lightbox -->
+            <h4 class="mb-3">Galerie Photos</h4>
+            <div class="row row-cols-2 row-cols-md-4 g-3 mb-4">
+                <div class="col" th:each="photo : ${bien.photos}">
+                    <!-- For external URLs -->
+                    <a th:if="${photo.url.startsWith('http')}" th:href="${photo.url}" data-lightbox="galerie" th:data-title="${bien.titre}">
+                        <img th:src="${photo.url}" class="img-fluid rounded shadow-sm" alt="Photo">
+                    </a>
+                    <!-- For local uploads -->
+                    <a th:unless="${photo.url.startsWith('http')}" th:href="@{'/uploads/' + ${photo.url}}" data-lightbox="galerie" th:data-title="${bien.titre}">
+                        <img th:src="@{'/uploads/' + ${photo.url}}" class="img-fluid rounded shadow-sm" alt="Photo">
+                    </a>
+                </div>
+                <div th:if="${bien.photos.isEmpty()}" class="col-12">
+                    <p class="text-muted">Aucune photo disponible pour ce bien.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sidebar / Contact -->
+        <div class="col-md-4">
+            <div class="card shadow-sm sticky-top" style="top: 20px;">
+                <div class="card-body">
+                    <h5 class="card-title">Agent en charge</h5>
+                    <p th:if="${bien.agent != null}">
+                        <strong>Nom:</strong> <span th:text="${bien.agent.nom + ' ' + bien.agent.prenom}"></span><br>
+                        <strong>Email:</strong> <span th:text="${bien.agent.email}"></span><br>
+                        <strong>Tél:</strong> <span th:text="${bien.agent.telephone}"></span>
+                    </p>
+                    <p th:unless="${bien.agent != null}" class="text-muted">Aucun agent assigné.</p>
+                    
+                    <div th:if="${message}" class="alert alert-success mt-3" th:text="${message}"></div>
+                    <hr>
+                    <h6>Intéressé ?</h6>
+                    <button type="button" class="btn btn-success w-100 mb-2" data-bs-toggle="modal" data-bs-target="#contactModal">
+                        Contacter l'agence
+                    </button>
+                    <button type="button" class="btn btn-outline-primary w-100" data-bs-toggle="modal" data-bs-target="#visiteModal">
+                        Planifier une visite
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Contact -->
+    <div class="modal fade" id="contactModal" tabindex="-1" aria-labelledby="contactModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <form th:action="@{'/catalogue/' + ${bien.id} + '/contact'}" method="post">
+              <div class="modal-header bg-success text-white">
+                <h5 class="modal-title" id="contactModalLabel">Contacter l'agence</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <div class="mb-3">
+                  <label class="form-label">Votre nom</label>
+                  <input type="text" name="nom" class="form-control" required>
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">Votre email</label>
+                  <input type="email" name="email" class="form-control" required>
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">Message</label>
+                  <textarea name="message" class="form-control" rows="4" required>Bonjour, je suis intéressé(e) par ce bien.</textarea>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                <button type="submit" class="btn btn-success">Envoyer</button>
+              </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal Visite -->
+    <div class="modal fade" id="visiteModal" tabindex="-1" aria-labelledby="visiteModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <form th:action="@{'/catalogue/' + ${bien.id} + '/visite'}" method="post">
+              <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title" id="visiteModalLabel">Planifier une visite</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <div class="mb-3">
+                  <label class="form-label">Votre nom</label>
+                  <input type="text" name="nom" class="form-control" required>
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">Votre email</label>
+                  <input type="email" name="email" class="form-control" required>
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">Date et Heure souhaitée</label>
+                  <input type="datetime-local" name="date" class="form-control" required>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                <button type="submit" class="btn btn-primary">Confirmer</button>
+              </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+</div>
+
+<div th:replace="fragments/base :: scripts"></div>
+</body>
+</html>
